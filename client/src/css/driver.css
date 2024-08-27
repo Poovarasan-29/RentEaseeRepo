@@ -1,0 +1,139 @@
+#MainImg img{
+    width: 200px;
+    height: 200px;
+    transition: .3s;
+}
+
+
+#sideImg{
+    width: 150px;
+    height: 150px;
+}
+
+#sideImg img{
+    width: 100%;
+    height: 100%;
+    transition: .3s;
+}
+
+#Caption{
+    font-size: 14px;
+}
+
+#Name{
+    font-size: 16px;
+}
+
+#Details{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#con{
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(22, 167, 22, 0.751);
+    letter-spacing: 2px;
+}
+
+#chat-btn{
+    width: 175px;
+}
+
+
+@media (max-width:1024px){
+    #sideImg{
+        width: 120px;
+        height: 120px;
+    }
+
+    #chat-btn{
+        width: 140px;
+    }
+
+    #MainImg img{
+        width: 180px;
+        height: 180px;
+    }
+
+}
+
+/* @media (max-width:996px){
+    #sideImg{
+        width: 100px;
+        height: 100px;
+    }
+} */
+
+@media (max-width:768px){
+    #sideImg{
+        width: 120px;
+        height: 120px;
+    }
+
+    #Caption{
+        font-size: 12px;
+    }
+
+    #Name{
+        font-size: 12px;
+    }
+
+    #Details{
+        font-size: 8px;
+    }
+
+    #con{
+        font-size: 9px;
+    }
+
+    #chat-btn{
+        width: 100px;
+    }
+    #MainImg img{
+        width: 160px;
+        height: 160px;
+    }
+}
+
+/* @media (max-width:425px){
+    #sideImg{
+        width: 120px;
+        height: 120px;
+    }
+} */
+
+@media (max-width:375px){
+    #sideImg{
+        width: 100px;
+        height: 100px;
+    }
+
+    #Caption{
+        font-size: 10px;
+    }
+
+    #Name{
+        font-size: 12px;
+    }
+
+    #Details{
+        font-size: 8px;
+    }
+
+    #chat-btn{
+        width: 80px;
+    }
+
+    #MainImg img{
+        width: 140px;
+        height: 140px;
+    }
+}
+
+/* @media (max-width:325px){
+    #sideImg{
+        width: 100px;
+        height: 100px;
+    }
+} */

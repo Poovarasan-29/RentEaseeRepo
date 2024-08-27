@@ -1,0 +1,250 @@
+{
+    "regions": [
+        {
+            "state": "Tamil Nadu",
+            "districts": [
+                {
+                    "district": "Salem",
+                    "city": [
+                        "Mettur",
+                        "Attur",
+                        "Omalur",
+                        "Sankagiri",
+                        "Edappadi",
+                        "Salem",
+                        "Yercaud",
+                        "Mecheri",
+                        "Elampillai",
+                        "Gangavalli"
+                    ]
+                },
+                {
+                    "district": "Dharamapuri",
+                    "city": [
+                        "Nallampalli",
+                        "Samichettipatti",
+                        "Pennagaram",
+                        "Dharmapuri",
+                        "Harur",
+                        "Morappur",
+                        "Pappireddipatti",
+                        "Kadathur",
+                        "Karimangalam"
+                    ]
+                },
+                {
+                    "district": "Krishnagiri",
+                    "city": [
+                        "Hosur",
+                        "Bargur",
+                        "Kilamnagalam",
+                        "Krishnagiri",
+                        "Denkanikottai",
+                        "Rayakottai",
+                        "Mathigiri",
+                        "Pochampalli",
+                        "Nagojanahalli",
+                        "Krishnagiri"
+                    ]
+                },
+                {
+                    "district": "Erode",
+                    "city": [
+                        "Anthiyur",
+                        "Bhavani",
+                        "Chennimalai",
+                        "Chithode",
+                        "Erode",
+                        "Gobichettipalayam",
+                        "Jambai",
+                        "Modakurichi",
+                        "Nasiyanur",
+                        "Perundurai",
+                        "Sathyamanagalam"
+                    ]
+                },
+                {
+                    "district": "Coimbatore",
+                    "city": [
+                        "Anaimalai",
+                        "Gandhipuram",
+                        "Coimbatore",
+                        "Kovaipudur",
+                        "Mettupalayam",
+                        "Malumichampatti",
+                        "Neelambur",
+                        "Pollachi",
+                        "Sulur",
+                        "Valparai"
+                    ]
+                },
+                {
+                    "district": "Tiruppur",
+                    "city": [
+                        "Avinashipalayam",
+                        "Dharapuram",
+                        "Kanakkampalayam",
+                        "Kangeyam",
+                        "Palladam",
+                        "Periyapatti",
+                        "Sankaramanallur",
+                        "Tiruppur",
+                        "Udumalaipettai",
+                        "Uthukuli"
+                    ]
+                },
+                {
+                    "district": "Karur",
+                    "city": [
+                        "Aravakurichi",
+                        "Karur",
+                        "Kulithalai",
+                        "Moolimangalam",
+                        "Pugalur",
+                        "Punjai Thottakurichi",
+                        "Thanthonimalai",
+                        "Thotti",
+                        "Uppidamangalam",
+                        "Velayuthampalayam"
+                    ]
+                },
+                {
+                    "district": "Namakkal",
+                    "city": [
+                        "Komarapalayam",
+                        "Mohanur",
+                        "Namakkal",
+                        "Pallipalayam",
+                        "Paramathi Velur",
+                        "Rasipuram",
+                        "Samayasangilii",
+                        "Sendamangalami",
+                        "Tiruchengode"
+                    ]
+                },
+                {
+                    "district": "Cuddalore",
+                    "city": [
+                        "Bhuvanagiri",
+                        "Chidambaram",
+                        "Cuddalore",
+                        "Gangaikondan",
+                        "Kattumannarkoil",
+                        "Lalpet",
+                        "Thotti",
+                        "Neyveli",
+                        "Panruti",
+                        "Vadalur"
+                    ]
+                },
+                {
+                    "district": "Chennai",
+                    "city": [
+                        "Adyar",
+                        "Adyar",
+                        "Chepauk",
+                        "Chrompet",
+                        "Egmore",
+                        "Guindy",
+                        "Koyambedu",
+                        "Nungambakkam",
+                        "Porur",
+                        "T. Nagar"
+                    ]
+                }
+            ]
+        },
+        {
+            "state": "Andhra Pradesh",
+            "districts": [
+                {
+                    "district": "Srikakulam",
+                    "city": [
+                        "Amudalavalasa",
+                        "Ichchapuram",
+                        "Kasibugga",
+                        "Narasannapeta",
+                        "Palasa",
+                        "Pathapatnam",
+                        "Singupuram",
+                        "Srikakulam",
+                        "Tekkali"
+                    ]
+                },
+                {
+                    "district": "Ananthapuramu",
+                    "city": [
+                        "Anantapur",
+                        "Gooty",
+                        "Kalyandurg",
+                        "Rayadurgam",
+                        "Yenumulapalle"
+                    ]
+                },
+                {
+                    "district": "Visakhapatnam",
+                    "city": [
+                        "Anakapalle",
+                        "Bheemunipatnam",
+                        "Chodavaram",
+                        "Gudivada",
+                        "Mulakuddu",
+                        "Narsipatnam",
+                        "Payakaraopeta",
+                        "Vishakhapatnam"
+                    ]
+                },
+                {
+                    "district": "Chittoor",
+                    "city": [
+                        "Akkarampalle",
+                        "Chittoor",
+                        "Madanapalle",
+                        "Nagari",
+                        "Palamaner",
+                        "Punganur",
+                        "Srikalahasti",
+                        "Tirupati"
+                    ]
+                },
+                {
+                    "district": "Guntur",
+                    "city": [
+                        "Anantavarapadu",
+                        "Brindavan Gardens",
+                        "chandra mouli nagar",
+                        "Gandhi nagar",
+                        "Koritepadu",
+                        "Nagarampalem",
+                        "Pattabipuram",
+                        "Srinivasarao peta"
+                    ]
+                },
+                {
+                    "district": "Krishna",
+                    "city": [
+                        "Gudivada",
+                        "Jaggayyapeta",
+                        "Kanuru",
+                        "Machilipatnam",
+                        "Nuzvid",
+                        "Pedana",
+                        "Vijayawada"
+                    ]
+                },
+                {
+                    "district": "NTR",
+                    "city": [
+                        "Chandarlapadu",
+                        "Ibrahimpatnam",
+                        "Jaggayyapeta",
+                        "Nandigama",
+                        "Tiruvuru",
+                        "Vatsavai",
+                        "Vissannapet"
+                    ]
+                }
+            ]
+        }
+    ]
+}

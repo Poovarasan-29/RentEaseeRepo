@@ -1,0 +1,49 @@
+{
+    "cars": [
+        {
+            "brand": "Suzuki",
+            "models": [
+                "Swift",
+                "Brezza",
+                "Ertiga",
+                "Drize"
+            ]
+        },
+        {
+            "brand": "Tata",
+            "models": [
+                "Punch",
+                "Tigor",
+                "Altorz",
+                "Tiago"
+            ]
+        },
+        {
+            "brand": "Lamborghini",
+            "models": [
+                "Urus",
+                "Hurican",
+                "Spyder",
+                "Countach"
+            ]
+        },
+        {
+            "brand": "Ferrari",
+            "models": [
+                "Roma",
+                "Purosangue",
+                "California",
+                "f8"
+            ]
+        },
+        {
+            "brand": "Hyundai",
+            "models": [
+                "Aura",
+                "Venue",
+                "Creta",
+                "Verna"
+            ]
+        }
+    ]
+}
