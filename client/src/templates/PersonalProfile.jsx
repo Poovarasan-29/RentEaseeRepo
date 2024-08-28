@@ -16,7 +16,9 @@ export default function PersonalProfile() {
         const response = await axios.get(process.env.REACT_APP_BASE_URL + 'user-profile', { params: { userid } });
         if (response.data.length !== 0) {
             setUserDetails(response.data[0])
-        } 
+        }
+        console.log("Res : ", response.data);
+
     }
 
     function handleLogoutBtn() {

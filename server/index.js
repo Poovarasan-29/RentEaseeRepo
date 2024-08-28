@@ -13,7 +13,11 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const port = process.env.PORT || 5000;
 
 async function connectDB() {
-    await mongoose.connect(process.env.MONGODB_URL)
+    try {
+        await mongoose.connect("mongodb+srv://spking222005:SayHi_29@rent-easee.vaswv.mongodb.net/?retryWrites=true&w=majority&appName=Rent-Easee")
+    } catch (error) {
+        console.log("Not connected");
+    }
 }
 connectDB();
 
