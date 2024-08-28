@@ -23,6 +23,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
+app.get('/', newUserRegistration);
+
 app.get('/rent-cars', getCars)
 app.get('/car-details/:id', getSingleCarFullDetails)
 app.post('/new-car', newCar);
@@ -35,7 +37,7 @@ app.get('/driver-details/:id', getDriverFullDetails);
 app.post('/register', newUserRegistration);
 app.post('/login', loginUser);
 
-app.get('/user-profile',getUserProfileInformations);
+app.get('/user-profile', getUserProfileInformations);
 
 
 
