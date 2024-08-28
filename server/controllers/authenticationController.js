@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const NewUserRegistrationModel = require("../models/newUserRegistration");
 
 
@@ -44,7 +44,7 @@ exports.newUserRegistration = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-    
+
     async function comparePassword(enteredPassword, storedHashedPassword) {
         const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
         return match;
@@ -62,7 +62,7 @@ exports.loginUser = async (req, res) => {
             return res.json({ success: false, message: 'Invalid credentials' });
         }
 
-        const verified = await comparePassword(password, user.password);
+        const verified = comparePassword(password, user.password);
 
         if (verified) {
             res.json({ success: true, message: "Successfully Login", userID: user.userID });
