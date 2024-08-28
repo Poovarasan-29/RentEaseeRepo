@@ -23,8 +23,8 @@ exports.newUserRegistration = async (req, res) => {
 
             // bcrypt the Password - HASHPASSWORD
             async function hashPassword(password) {
-                const salt = await bcrypt.genSalt(saltRounds);
-                const hashedPassword = await bcrypt.hash(password, salt);
+                // const salt = await bcrypt.genSalt(saltRounds);
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
                 return hashedPassword;
             }
 
@@ -44,7 +44,7 @@ exports.newUserRegistration = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-
+    
     async function comparePassword(enteredPassword, storedHashedPassword) {
         const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
         return match;
