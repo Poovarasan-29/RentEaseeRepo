@@ -2,6 +2,7 @@ import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
 
+
 export default function Footer() {
     return (
         <MDBFooter bgColor='light' className='text-center text-lg-start text-muted' id='footer'>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { setLoginSuccess } from "../slice/checkUserLoginSlice";
+import { HashLink } from 'react-router-hash-link';
 
 
 export default function Navbar() {
@@ -21,7 +22,7 @@ export default function Navbar() {
         <nav className="navbar navbar-expand-sm fixed-top" style={{ background: 'rgb(34,34,34)', height: '100px' }} >
             <div className="container-fluid py-2 " style={{ background: 'rgb(34,34,34)' }}>
                 <Link to={'/renteasee'}>
-                    <img src={"https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2Frenteasee3.png?alt=media&token=a42632b3-fc37-4b53-b484-31a2451f2a09"} className="ms-5" alt="RentEasee" width="100px" style={{ transform: 'scale(2.2)', filter: 'contrast(3) brightness(2.5)' }}/>
+                    <img src={"https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2Frenteasee3.png?alt=media&token=a42632b3-fc37-4b53-b484-31a2451f2a09"} className="ms-5" alt="RentEasee" width="100px" style={{ transform: 'scale(2.2)', filter: 'contrast(3) brightness(2.5)' }} />
                 </Link>
                 <button className="navbar-toggler border btn me-5" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -41,7 +42,7 @@ export default function Navbar() {
                                 </li>
                         }
                         <li className="nav-item" id="help">
-                            <Link to="#footer" className="nav-link fs-5 text-light mx-4" role="button"><i className="bi bi-telephone fs-2"></i></Link>
+                            <HashLink to="#footer" className="nav-link fs-5 text-light mx-4" role="button"><i className="bi bi-telephone fs-2"></i></HashLink>
                         </li>
                     </ul>
                 </div>
