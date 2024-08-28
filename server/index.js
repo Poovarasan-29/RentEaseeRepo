@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
-app.get('/', newUserRegistration);
+app.get('/', getDrivers);
 
 app.get('/rent-cars', getCars)
 app.get('/car-details/:id', getSingleCarFullDetails)
