@@ -15,7 +15,6 @@ const { getUserProfileInformations } = require('./controllers/userProfileControl
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const port = process.env.PORT || 5000;
-console.log(port);
 
 connectDatabase();
 

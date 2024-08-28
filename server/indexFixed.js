@@ -11,7 +11,6 @@ const userProfileRouter = require('./routes/userProfile');
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const port = process.env.PORT || 5000;
-console.log(port);
 
 connectDatabase();
 
