@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const NewUserRegistrationModel = require("../models/newUserRegistration");
 
 
@@ -53,6 +53,7 @@ exports.loginUser = async (req, res) => {
     try {
         const { emailOrPhone, password } = req.body;
         let user;
+        const userSignUpPassword = user.password;
         if (isNaN(emailOrPhone))
             user = await NewUserRegistrationModel.findOne(({ email: emailOrPhone }));
         else
@@ -62,7 +63,7 @@ exports.loginUser = async (req, res) => {
             return res.json({ success: false, message: 'Invalid credentials' });
         }
 
-        const verified = comparePassword(password, user.password);
+        const verified = comparePassword(password, userSignUpPassword);
 
         if (verified) {
             res.json({ success: true, message: "Successfully Login", userID: user.userID });
