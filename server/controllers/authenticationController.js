@@ -8,7 +8,6 @@ exports.newUserRegistration = async (req, res) => {
         const values = req.body;
 
         const isExistPhoneNumber = await NewUserRegistrationModel.find({ phoneNumber: values.phoneNumber });
-        console.log(isExistPhoneNumber);
 
         if (isExistPhoneNumber.length !== 0) {
             res.json({ success: false, message: "Mobile Number Already Exists" });
@@ -53,7 +52,6 @@ exports.loginUser = async (req, res) => {
 
     try {
         const { emailOrPhone, password } = req.body;
-        // const user = await NewUserRegistrationModel.findOne(({ $or: [{ email: emailOrPhone }, { phoneNumber: emailOrPhone }] }));
         let user;
         if (isNaN(emailOrPhone))
             user = await NewUserRegistrationModel.findOne(({ email: emailOrPhone }));

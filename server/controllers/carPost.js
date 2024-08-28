@@ -17,7 +17,7 @@ exports.getCars = async (req, res) => {
 
         res.status(200).json(cars)
     } catch (error) {
-        console.log("error");
+        res.status(404).send("Not Found")
     }
 }
 
@@ -29,7 +29,7 @@ exports.getSingleCarFullDetails = async (req, res) => {
 
         res.status(200).json(carDetails);
     } catch (error) {
-        console.log(error);
+        res.status(404).send("Not Found")
     }
 }
 
@@ -51,19 +51,18 @@ exports.getRelatedCars = async (req, res) => {
         }
         res.status(200).json(carDetails)
     } catch (error) {
-        console.log(error);
+        res.status(404).send("Not Found")
     }
 
 }
-
-
 
 exports.newCar = async (req, res) => {
     const { imageUrls, inputs } = req.body;
     const values = inputs;
     values.insuranceDocument = imageUrls.insuranceDocument;
     values.carPhotos = imageUrls.carPhotos;
-    console.log(values);
+    values.createdAt = new Date();
+    
     try {
         const newCar = new carpost(values);
         await newCar.save();
@@ -71,5 +70,4 @@ exports.newCar = async (req, res) => {
     } catch (error) {
         res.status(500).send('Failed to save image paths');
     }
-
 }

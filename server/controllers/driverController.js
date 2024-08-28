@@ -88,7 +88,6 @@ exports.getNewDriverDetails = (req, res) => {
 exports.getDrivers = async (req, res) => {
 
     const { district, city } = req.query;
-    console.log(" : ", district, " : ", city);
 
     let query = {};
 
@@ -96,7 +95,6 @@ exports.getDrivers = async (req, res) => {
     if (city) query.city = city;
 
     const allDrivers = await driverdetails.find(query);
-    console.log(allDrivers);
 
     res.status(200).json({
         allDrivers

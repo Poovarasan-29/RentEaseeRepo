@@ -7,6 +7,7 @@ const connectDatabase = require('./config/connectDB');
 const carRouter = require('./routes/car');
 const driverRouter = require('./routes/driver');
 const authenticationRouter = require('./routes/authentication');
+const userProfileRouter = require('./routes/userProfile');
 
 dotenv.config({ path: path.join(__dirname, 'config', '.env') })
 const port = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(carRouter);
 app.use(driverRouter);
 app.use(authenticationRouter);
+app.use(userProfileRouter);
 
 app.listen(port, () => {
     console.log("Running at Port : ", port);
