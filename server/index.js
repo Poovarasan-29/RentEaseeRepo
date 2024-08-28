@@ -25,7 +25,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
-app.get('/', getDrivers);
+app.get('/', (req, res) => {
+    res.send("Successfully Running the Default URL")
+});
 
 app.get('/rent-cars', getCars)
 app.get('/car-details/:id', getSingleCarFullDetails)
