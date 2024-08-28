@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const NewUserRegistrationModel = require("../models/newUserRegistration");
 
 
@@ -21,22 +21,28 @@ exports.newUserRegistration = async (req, res) => {
 
             values.userID = randomNumber;
 
+            await NewUserRegistrationModel.create(values)
+                .then(response => {
+                    res.status(201).json({ success: true, message: response })
+                }).catch(err => {
+                    res.status(500).json({ success: false, message: err })
+                });
             // bcrypt the Password - HASHPASSWORD
-            async function hashPassword(password) {
-                // const salt = await bcrypt.genSalt(saltRounds);
-                const hashedPassword = await bcrypt.hash(password, saltRounds);
-                return hashedPassword;
-            }
+            // async function hashPassword(password) {
+            //     // const salt = await bcrypt.genSalt(saltRounds);
+            //     const hashedPassword = await bcrypt.hash(password, saltRounds);
+            //     return hashedPassword;
+            // }
 
-            hashPassword(values.password).then(async (hashed) => {
-                values.password = hashed;
-                await NewUserRegistrationModel.create(values)
-                    .then(response => {
-                        res.status(201).json({ success: true, message: response })
-                    }).catch(err => {
-                        res.status(500).json({ success: false, message: err })
-                    });
-            });
+            // hashPassword(values.password).then(async (hashed) => {
+            //     values.password = hashed;
+            //     await NewUserRegistrationModel.create(values)
+            //         .then(response => {
+            //             res.status(201).json({ success: true, message: response })
+            //         }).catch(err => {
+            //             res.status(500).json({ success: false, message: err })
+            //         });
+            // });
         }
     } catch (err) {
         res.status(500).json({ success: false, message: err });
@@ -45,10 +51,10 @@ exports.newUserRegistration = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
 
-    async function comparePassword(enteredPassword, storedHashedPassword) {
-        const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
-        return match;
-    }
+    // async function comparePassword(enteredPassword, storedHashedPassword) {
+    //     const match = await bcrypt.compare(enteredPassword, storedHashedPassword);
+    //     return match;
+    // }
 
     try {
         const { emailOrPhone, password } = req.body;
@@ -63,9 +69,14 @@ exports.loginUser = async (req, res) => {
             return res.json({ success: false, message: 'Invalid credentials' });
         }
 
-        const verified = comparePassword(password, userSignUpPassword);
+        // const verified = comparePassword(password, userSignUpPassword);
 
-        if (verified) {
+        // if (verified) {
+        //     res.json({ success: true, message: "Successfully Login", userID: user.userID });
+        // } else {
+        //     res.json({ success: false, message: "You entered wrong password " });
+        // }
+        if (Number(password) === Number(userSignUpPassword)) {
             res.json({ success: true, message: "Successfully Login", userID: user.userID });
         } else {
             res.json({ success: false, message: "You entered wrong password " });
