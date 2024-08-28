@@ -36,8 +36,8 @@ app.post('/new-driver', createNewDriver);
 app.get('/get-drivers', getDrivers);
 app.get('/driver-details/:id', getDriverFullDetails);
 
-app.post('/register', newUserRegistration);
-app.post('/login', loginUser);
+// app.post('/register', newUserRegistration);
+// app.post('/login', loginUser);
 
 app.get('/user-profile', getUserProfileInformations);
 
