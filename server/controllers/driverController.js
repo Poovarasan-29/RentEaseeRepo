@@ -97,7 +97,7 @@ exports.getDrivers = async (req, res) => {
     try {
         const allDrivers = await driverdetails.find(query);
         res.status(200).json({
-            allDrivers
+            allDrivers: allDrivers
         })
     } catch (error) {
         res.status(404).send("Not Found")
