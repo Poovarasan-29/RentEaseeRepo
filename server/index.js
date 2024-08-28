@@ -9,7 +9,7 @@ const driverRouter = require('./routes/driver');
 const authenticationRouter = require('./routes/authentication');
 const userProfileRouter = require('./routes/userProfile');
 
-dotenv.config({ path: path.join(__dirname, 'config', '.env') })
+dotenv.config({ path: path.join(__dirname, '.env') })
 const port = process.env.PORT || 5000;
 connectDatabase();
 
