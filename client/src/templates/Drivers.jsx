@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DriverFilter from "../components/DriverFilter";
-
+import { Helmet } from "react-helmet-async";
+import DriverCardSkeleton from "../skeleton/DriverCardSkeleton";
+import { MDBCol, MDBRow, MDBCard, MDBCardTitle, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
 
 export default function Drivers() {
@@ -11,6 +13,7 @@ export default function Drivers() {
     const [drivers, setDrivers] = useState([]);
     const [selectedDistrict, setSelectedDistrict] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     async function fetchDrivers() {
@@ -33,7 +36,6 @@ export default function Drivers() {
             response = await axios.get(process.env.REACT_APP_BASE_URL + 'get-drivers', { params: { district: selectedDistrict, city: selectedCity } });
             navigate(`/renteasee/hire-drivers?district=${selectedDistrict}&city=${selectedCity}`)
         }
-        console.log(response.data);
 
         const drivers = response.data.allDrivers;
         for (let driver of drivers) {
@@ -45,9 +47,11 @@ export default function Drivers() {
             driver.age = age;
         }
         setDrivers(drivers);
+        setLoading(false);
     }
 
     useEffect(() => {
+        setLoading(true)
         fetchDrivers();
     }, []);
 
@@ -55,72 +59,73 @@ export default function Drivers() {
         toast.warning("Need to Buy Membership");
     }
 
-
     return (
         <>
+            <Helmet>
+                <title>RentEasee | Drivers</title>
+            </Helmet>
             <DriverFilter selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedDistrict={selectedDistrict} setSelectedDistrict={setSelectedDistrict} fetchDrivers={fetchDrivers} />
-            <div className=" container-fluid d-flex flex-column justify-content-center align-items-center" style={{ marginTop: '120px' }} >
-                <div style={{ width: "90%" }}>
-                    <div className="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-1 ">
-                        {
-                            drivers.map((driver, index) =>
-                                <div className="col p-2 ">
-                                    <div className="border">
-                                        <div className="d-flex">
-                                            <div className="me-3">
-                                                <img src={driver.driverPhoto} alt="driver-image" width={"150px"} height={"150px"} />
-                                            </div>
-                                            <div>
-                                                <div className="row mt-4 ms-2 row-cols-2 gy-3 gx-4">
-                                                    <div className="col">
-                                                        <p className="m-0" style={{ fontWeight: "bold" }}>DISTRICT</p>
-                                                        <p className="m-0 text-uppercase" style={{ fontSize: "14px" }}>{driver.district}</p>
+            {
+                loading ?
+                    Array(6).fill(0).map(_ => <div className="col p-2"><DriverCardSkeleton /></div>)
+                    :
+                    drivers.length !== 0 ?
+                        <div className="vh-100" style={{ backgroundColor: '#efefef', overflowX: 'hidden' }}>
+                            <div className="" style={{ width: '100vw' }} >
+                                <MDBRow className="justify-content-center px-3 pe-5">
+                                    {drivers.map((driver, index) =>
+                                        <MDBCol md="9" lg="7" xl="5" className="mt-5" style={{ width: 'fit-content' }} >
+                                            <MDBCard style={{ borderRadius: '5px', border: '1px solid rgba(0,0,0,.3)' }}>
+                                                <MDBCardBody className="p-4">
+                                                    <div className="d-flex text-black">
+                                                        <div className="flex-shrink-0">
+                                                            <MDBCardImage
+                                                                style={{ width: '180px', borderRadius: '10px' }}
+                                                                src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp'
+                                                                alt='Generic placeholder image'
+                                                                fluid />
+                                                        </div>
+                                                        <div className="ms-3">
+                                                            <MDBCardTitle className="fw-bold text-uppercase" style={{ color: '#ad1fff' }}>{driver.name}</MDBCardTitle>
+                                                            <MDBRow className="d-flex" style={{ width: 'fit-content' }}>
+                                                                <MDBRow>
+                                                                    <MDBCol className="p-0 ms-3">
+                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>DISTRICT</p>
+                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.district}</p>
+                                                                    </MDBCol>
+                                                                    <MDBCol className="p-0 ms-4">
+                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>CITY</p>
+                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.city}</p>
+                                                                    </MDBCol>
+                                                                </MDBRow>
+                                                                <MDBRow style={{ marginTop: '10px' }}>
+                                                                    <MDBCol className="p-0 ms-3">
+                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>AGE</p>
+                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.age}</p>
+                                                                    </MDBCol>
+                                                                    <MDBCol className="p-0 ms-4">
+                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>GENDER</p>
+                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.gender}</p>
+                                                                    </MDBCol>
+                                                                </MDBRow>
+
+                                                            </MDBRow>
+                                                            <div className="d-flex pt-1">
+                                                                <MDBBtn outline className="me-1 " style={{ width: 'fit-content' }}>Profile</MDBBtn>
+                                                                <MDBBtn className="" style={{ width: 'fit-content' }} onClick={handleContactBtn} >Contact</MDBBtn>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="col">
-                                                        <p className="m-0" style={{ fontWeight: "bold" }}>CITY</p>
-                                                        <p className="m-0 text-uppercase" style={{ fontSize: "14px" }}>{driver.city}</p>
-                                                    </div>
-                                                    <div className="col">
-                                                        <p className="m-0" style={{ fontWeight: "bold" }}>AGE</p>
-                                                        <p className="m-0" style={{ fontSize: "14px" }}>{driver.age}</p>
-                                                    </div>
-                                                    <div className="col">
-                                                        <p className="m-0" style={{ fontWeight: "bold" }}>GENDER</p>
-                                                        <p className="m-0 text-uppercase" style={{ fontSize: "14px" }}>{driver.gender}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="w-100 p-3">
-                                            <div className="row">
-                                                <div className="col d-flex align-items-center ">
-
-                                                    <p className="m-0 text-uppercase fs-5" style={{ fontSize: "13px" }}>{driver.name}</p>
-
-                                                </div>
-                                                <div className="col">
-                                                    <button className="p-2 rounded w-100 mt-2 text-white" style={{ fontWeight: "500", letterSpacing: "2px", backgroundColor: "rgba(22, 167, 22, 0.751)" }} onClick={handleContactBtn} >
-                                                        &#9743;Contact</button>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            )
-                        }
-
-                    </div>
-                </div>
-
-                <div>
-
-                </div>
-
-
-            </div>
+                                                </MDBCardBody>
+                                            </MDBCard>
+                                        </MDBCol>
+                                    )}
+                                </MDBRow>
+                            </div>
+                        </div>
+                        :
+                        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '25px' }}>No Drivers matched your search</div>
+            }
         </>
     )
 }

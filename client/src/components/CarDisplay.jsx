@@ -6,7 +6,7 @@ import regionsData from '../data/regions.json';
 
 
 
-export default function CarDisplay({ setCars }) {
+export default function CarDisplay({ setCars, setLoading }) {
 
     const queryParams = new URLSearchParams(window.location.search);
 
@@ -16,9 +16,6 @@ export default function CarDisplay({ setCars }) {
     const [manufacturedYear, setManufacturedYear] = useState("");
     const [state, setState] = useState("");
     const navigate = useNavigate();
-
-    console.log(selectedBrand, selectedModel, manufacturedYear, state);
-
 
     function handleSelectedBrand(e) {
         setSelectedBrand(e.target.value);
@@ -71,6 +68,7 @@ export default function CarDisplay({ setCars }) {
         }
 
         setCars(res.data);
+        setLoading(false);
     }
 
     useEffect(() => {

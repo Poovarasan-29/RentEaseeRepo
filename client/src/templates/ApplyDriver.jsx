@@ -6,9 +6,13 @@ import { storage } from '../firebase';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TailSpin } from 'react-loader-spinner';
+import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
+
 
 export default function ApplyDriver() {
 
+    const { userID } = useSelector(state => state.checkUserLoginSlice);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
@@ -57,59 +61,67 @@ export default function ApplyDriver() {
 
 
     const handleUpload = (e) => {
-        e.preventDefault()
-        const uploadPromises = [];
-        const uploadResults = {};
-        setLoading(true);
-        // Function to upload a single file and save its download URL
-        const uploadFile = (file, path) => {
-            const storageRef = ref(storage, path);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-
-            return new Promise((resolve, reject) => {
-                uploadTask.on(
-                    'state_changed',
-                    (snapshot) => {
-                        // Progress function (optional)
-                    },
-                    (error) => {
-                        console.error('Upload error:', error);
-                        reject(error);
-                    },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                            resolve(downloadURL);
-                        });
-                    }
-                );
-            });
-        };
-
-        // Upload each file and store the result
-        for (const [key, file] of Object.entries(files)) {
-            if (file) {
-                // For single file fields
-                uploadPromises.push(
-                    uploadFile(file, `${key}/${file.name}`).then((url) => {
-                        uploadResults[key] = url;
-                    })
-                );
-                // }
-            } else if (key === 'expiranceDoc') {
-                // Handle optional expiranceDoc
-                uploadResults[key] = ''; // Set an empty string if not uploaded
-            }
+        if (!userID) {
+            toast.warning("Login first", { autoClose: 750 });
+            setTimeout(() => {
+                navigate('/renteasee/login');
+            }, 1000)
         }
+        else {
+            e.preventDefault()
+            const uploadPromises = [];
+            const uploadResults = {};
+            setLoading(true);
+            // Function to upload a single file and save its download URL
+            const uploadFile = (file, path) => {
+                const storageRef = ref(storage, path);
+                const uploadTask = uploadBytesResumable(storageRef, file);
 
-        // Once all uploads are complete
-        Promise.all(uploadPromises)
-            .then(() => {
-                // setUrls(uploadResults);
-                saveToMongoDB(uploadResults);
-            })
-            .catch((error) => {
-                console.error('Failed to upload all files:', error);
-            });
+                return new Promise((resolve, reject) => {
+                    uploadTask.on(
+                        'state_changed',
+                        (snapshot) => {
+                            // Progress function (optional)
+                        },
+                        (error) => {
+                            console.error('Upload error:', error);
+                            reject(error);
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                resolve(downloadURL);
+                            });
+                        }
+                    );
+                });
+            };
+
+            // Upload each file and store the result
+            for (const [key, file] of Object.entries(files)) {
+                if (file) {
+                    // For single file fields
+                    uploadPromises.push(
+                        uploadFile(file, `${key}/${file.name}`).then((url) => {
+                            uploadResults[key] = url;
+                        })
+                    );
+                    // }
+                } else if (key === 'expiranceDoc') {
+                    // Handle optional expiranceDoc
+                    uploadResults[key] = ''; // Set an empty string if not uploaded
+                }
+            }
+
+            // Once all uploads are complete
+            Promise.all(uploadPromises)
+                .then(() => {
+                    // setUrls(uploadResults);
+                    saveToMongoDB(uploadResults);
+                })
+                .catch((error) => {
+                    console.error('Failed to upload all files:', error);
+                });
+        }
     };
 
     const saveToMongoDB = async (uploadResults) => {
@@ -147,51 +159,61 @@ export default function ApplyDriver() {
     }, []);
 
     function handleInputs(e) {
-        const name = e.target.name;
-        let value = e.target.value;
+        if (!userID) {
+            toast.warning("Login first", { autoClose: 750 });
+            setTimeout(() => {
+                navigate('/renteasee/login');
+            }, 1000)
+        }
+        else {
+            const name = e.target.name;
+            let value = e.target.value;
 
-        if (name === 'aadharNo') {
-            if (!isNaN(value.split(' ').join(''))) {
-                if (value.length === 0) {
-                    setInputsValidation({ ...inputs, [name]: '' })
-                } else if (value.length === 14) {
-                    setInputsValidation({ ...inputs, [name]: true })
-                } else if (value.length < 15) {
-                    if (inputs.aadharNo.length < value.length && (value.length === 4 || value.length === 9))
-                        value += " ";
-                    else if (inputs.aadharNo.length > value.length && (value.length === 5 || value.length === 10)) {
-                        value = value.slice(0, value.length - 1);
+            if (name === 'aadharNo') {
+                if (!isNaN(value.split(' ').join(''))) {
+                    if (value.length === 0) {
+                        setInputsValidation({ ...inputs, [name]: '' })
+                    } else if (value.length === 14) {
+                        setInputsValidation({ ...inputs, [name]: true })
+                    } else if (value.length < 15) {
+                        if (inputs.aadharNo.length < value.length && (value.length === 4 || value.length === 9))
+                            value += " ";
+                        else if (inputs.aadharNo.length > value.length && (value.length === 5 || value.length === 10)) {
+                            value = value.slice(0, value.length - 1);
+                        }
+                        setInputsValidation({ ...inputs, [name]: false })
+                    } else {
+                        value = inputs.aadharNo;
                     }
-                    setInputsValidation({ ...inputs, [name]: false })
                 } else {
                     value = inputs.aadharNo;
                 }
-            } else {
-                value = inputs.aadharNo;
             }
-        }
-        else if (name === "phoneNo" && value.length > 10) {
-            value = inputs.phoneNo;
-        }
-        else if (name === "alternateNumber" && value.length > 10) {
-            value = inputs.alternateNumber;
-        }
-        else if (name === "email") {
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const isValid = emailPattern.test(value);
-        }
-        else if (name === "licenceNo") {
-            if (value.length > 16)
-                value = inputs.licenceNo;
-            let drivingLicencePattern = new RegExp(/^(([A-Z]{2}[0-9]{2})( )|([A-Z]{2}-[0-9]{2}))((19|20)[0-9][0-9])[0-9]{7}$/);
-            const licenceValid = drivingLicencePattern.test(value);
-        }
+            else if (name === "phoneNo" && value.length > 10) {
+                value = inputs.phoneNo;
+            }
+            else if (name === "alternateNumber" && value.length > 10) {
+                value = inputs.alternateNumber;
+            }
+            else if (name === "email") {
+                // const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                // const isValid = emailPattern.test(value);
+            }
+            else if (name === "licenceNo") {
+                if (value.length > 16)
+                    value = inputs.licenceNo;
+                // let drivingLicencePattern = new RegExp(/^(([A-Z]{2}[0-9]{2})( )|([A-Z]{2}-[0-9]{2}))((19|20)[0-9][0-9])[0-9]{7}$/);
+                // const licenceValid = drivingLicencePattern.test(value);
+            }
 
-        setInputs({ ...inputs, [name]: value })
-
+            setInputs({ ...inputs, [name]: value })
+        }
     }
 
-    return (
+    return <>
+        <Helmet>
+            <title>RentEasee | Apply for Driver</title>
+        </Helmet>
         <div className="container-sm" style={{ marginTop: '120px' }}>
             {
                 loading && <div className="bg-dark p-2 d-flex flex-column align-items-center" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
@@ -199,7 +221,6 @@ export default function ApplyDriver() {
                 </div>
 
             }
-
             <h2 className="text-center text-dark text-uppercase fw-bold">Become a Driver with Us</h2>
             <form
                 className="row my-3 row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
@@ -417,5 +438,5 @@ export default function ApplyDriver() {
                 </div>
             </form>
         </div>
-    );
+    </>
 }

@@ -5,6 +5,7 @@ import 'react-phone-input-2/lib/style.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 
 function Register() {
@@ -73,7 +74,6 @@ function Register() {
             const values = { fullName, email, phoneNumber, dob, password, address };
             try {
                 const res = await axios.post(process.env.REACT_APP_BASE_URL + "register", values);
-                console.log(res.data);
 
                 if (res.data.message === 'Mobile Number Already Exists') {
                     toast.error(res.data.message);
@@ -84,7 +84,7 @@ function Register() {
                     }, 1500);
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         } else {
             if (!emailValidation)
@@ -103,7 +103,10 @@ function Register() {
     }
 
 
-    return (
+    return <>
+        <Helmet>
+            <title>RentEasee | Register</title>
+        </Helmet>
         <MDBContainer fluid className='p-4 background-radial-gradient d-flex align-items-center overflow-hidden' style={{ height: '100vh' }}>
             <img src={'https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2FRentEaseeLogo.png?alt=media&token=2d3aa269-d5ac-464d-add4-6d85860db2f8'} alt="logo" className='img-logo' />
             <MDBRow className='mt-5'>
@@ -134,7 +137,7 @@ function Register() {
                                     <MDBCol col='6' className='position-relative'>
                                         <MDBInput wrapperClass='mb-4' className='py-3 custom-input shadow-0 border' required onChange={handleFullName} name='fullName' value={fullName} label='Full Name' id='fullname' type='text' />
                                     </MDBCol>
-                                    
+
                                     <MDBCol col='6' className='position-relative'>
                                         <MDBInput wrapperClass='mb-4' className='py-3' label='Email' required onChange={handleEmail} name='email' value={email} id='email' type='text' />
                                         <p className='m-0 text-danger' style={{ fontSize: '12px', position: 'absolute', bottom: '4px', left: '15px', visibility: inputsValidation.email ? "visible" : "hidden" }}>Enter Valid Email</p>
@@ -194,7 +197,7 @@ function Register() {
                 </MDBCol>
             </MDBRow>
         </MDBContainer >
-    );
+    </>
 }
 
 export default Register;

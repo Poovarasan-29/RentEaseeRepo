@@ -19,7 +19,6 @@ export default function DriverFilter({ selectedDistrict, setSelectedDistrict, se
     //     else {
     //         setSelectedDistrict("")
     //         setSelectedCity("")
-    //         console.log(filter);
     //     }
     // }
     useEffect(() => {
@@ -45,7 +44,7 @@ export default function DriverFilter({ selectedDistrict, setSelectedDistrict, se
 
     return <div className=" text-white d-flex flex-column align-items-center justify-content-center container" style={{ marginTop: '100px' }}>
         <div className="w-100">
-            <h2 className="text-center my-3 p-3 text-dark">EXPLORE THE FINEST SELECTION OF RENTAL VEHICLES</h2>
+            <h2 className="text-center my-3 p-3 text-dark">EXPLORE YOUR FINEST SELECTION OF DRIVERS</h2>
             <div className=" design row w-100 d-flex justify-content-center mt-3 row-cols-lg-5 row-cols-2 ">
 
                 {/* <div className="col p-3">

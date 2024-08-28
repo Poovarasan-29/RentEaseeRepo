@@ -7,9 +7,13 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { TailSpin } from 'react-loader-spinner';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
+import { useSelector } from "react-redux";
+
 
 
 export default function NewCar() {
+    const { userID } = useSelector(state => state.checkUserLoginSlice);
 
     const [inputs, setInputs] = useState({ brand: '', model: '', manufacturedYear: '', fuelType: '', fuelCapacity: '', noOfOwners: '', transmission: '', ac: '', vechileNo: '', depositAmountDay: '', depositAmountMonth: '', rentAmountDay: '', rentAmountMonth: '', carLocation: '', address: '', milage: '', KMdriven: '', noOfSeats: '', status: '', state: '', district: '', city: '', description: '', phoneNo: '' })
     const [displayImages, setDisplayImages] = useState([]);
@@ -36,29 +40,34 @@ export default function NewCar() {
     });
 
     const handleFileChange = (e) => {
-        const { name, files: selectedFiles } = e.target;
-        console.log("Files : ", files);
-        console.log("Inputs : ", inputs);
-
-        if (name === 'carPhotos') {
-            if (selectedFiles.length !== 5) {
-                alert('Please upload exactly 5 car photos.');
-                return;
+        if (!userID) {
+            toast.warning("Login first", { autoClose: 750 });
+            setTimeout(() => {
+                navigate('/renteasee/login');
+            }, 1000)
+        }
+        else {
+            const { name, files: selectedFiles } = e.target;
+            if (name === 'carPhotos') {
+                if (selectedFiles.length !== 5) {
+                    alert('Please upload exactly 5 car photos.');
+                    return;
+                }
+                setFiles((prevFiles) => ({
+                    ...prevFiles,
+                    [name]: Array.from(selectedFiles),
+                }));
+                const combineImagesForDisplay = []
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    combineImagesForDisplay.push(URL.createObjectURL(selectedFiles[i]))
+                }
+                setDisplayImages(preImgs => [...preImgs, ...combineImagesForDisplay]);
+            } else {
+                setFiles((prevFiles) => ({
+                    ...prevFiles,
+                    [name]: selectedFiles[0], // Single file for other fields
+                }));
             }
-            setFiles((prevFiles) => ({
-                ...prevFiles,
-                [name]: Array.from(selectedFiles),
-            }));
-            const combineImagesForDisplay = []
-            for (let i = 0; i < selectedFiles.length; i++) {
-                combineImagesForDisplay.push(URL.createObjectURL(selectedFiles[i]))
-            }
-            setDisplayImages(preImgs => [...preImgs, ...combineImagesForDisplay]);
-        } else {
-            setFiles((prevFiles) => ({
-                ...prevFiles,
-                [name]: selectedFiles[0], // Single file for other fields
-            }));
         }
     };
 
@@ -157,29 +166,35 @@ export default function NewCar() {
     }, [])
 
     function handleInputs(e) {
-        setCheck(false)
-        console.log(inputs);
-
-        const name = e.target.name;
-        const value = e.target.value;
-
-        if (name === "phoneNo" && value.length < 11) {
-            setInputs((previousValue) => { return { ...previousValue, [name]: value } });
+        if (!userID) {
+            toast.warning("Login first", { autoClose: 750 });
+            setTimeout(() => {
+                navigate('/renteasee/login');
+            }, 1000)
         }
-        else if (name !== 'phoneNo') {
-            setInputs((previousValue) => { return { ...previousValue, [name]: value } });
-        }
-        if (name === "brand") {
-            const foundBrand = carsData.cars.filter(car => car.brand === value)
-            setModels(foundBrand[0].models)
-        } else if (name === "state") {
-            const districtsWithCity = regionData.regions.filter(state => state.state === value)[0].districts;
-            setInputs((previousValue) => { return { ...previousValue, [name]: value, district: '', city: '' } });
-            setAllDistricts(districtsWithCity);
-        } else if (name === "district") {
-            const citiesWithDistrict = allDistricts.filter(dist => dist.district === value)[0].city;
-            setInputs((previousValue) => { return { ...previousValue, [name]: value, city: '' } });
-            setAllCities(citiesWithDistrict);
+        else {
+            setCheck(false)
+            const name = e.target.name;
+            const value = e.target.value;
+
+            if (name === "phoneNo" && value.length < 11) {
+                setInputs((previousValue) => { return { ...previousValue, [name]: value } });
+            }
+            else if (name !== 'phoneNo') {
+                setInputs((previousValue) => { return { ...previousValue, [name]: value } });
+            }
+            if (name === "brand") {
+                const foundBrand = carsData.cars.filter(car => car.brand === value)
+                setModels(foundBrand[0].models)
+            } else if (name === "state") {
+                const districtsWithCity = regionData.regions.filter(state => state.state === value)[0].districts;
+                setInputs((previousValue) => { return { ...previousValue, [name]: value, district: '', city: '' } });
+                setAllDistricts(districtsWithCity);
+            } else if (name === "district") {
+                const citiesWithDistrict = allDistricts.filter(dist => dist.district === value)[0].city;
+                setInputs((previousValue) => { return { ...previousValue, [name]: value, city: '' } });
+                setAllCities(citiesWithDistrict);
+            }
         }
 
     }
@@ -193,7 +208,10 @@ export default function NewCar() {
     // }
 
 
-    return (
+    return <>
+        <Helmet>
+            <title>RentEasee | Rent my Car</title>
+        </Helmet>
         <div className="container-sm" style={{ marginTop: '120px' }}>
             <h2 className="text-center text-dark text-uppercase fw-bold">Add Your Vehicle to Our Rental Service</h2>
             {
@@ -417,5 +435,5 @@ export default function NewCar() {
 
             </form>
         </div>
-    );
+    </>
 }

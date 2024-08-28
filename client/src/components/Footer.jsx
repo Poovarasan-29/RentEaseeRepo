@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
     return (
-        <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+        <MDBFooter bgColor='light' className='text-center text-lg-start text-muted' id='footer'>
             <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom bg-dark text-light'>
                 <div className='me-5 d-none d-lg-block'>
                     <span>Get connected with us on social networks</span>
@@ -26,7 +26,7 @@ export default function Footer() {
                     <Link to={''} className='me-4 text-reset'>
                         <MDBIcon color='secondary' fab icon='linkedin' />
                     </Link>
-                    <Link to={''} className='me-4 text-reset'>
+                    <Link to={'https://github.com/Poovarasan-29/RentEaseeRepo'} target='_blank' className='me-4 text-reset'>
                         <MDBIcon color='secondary' fab icon='github' />
                     </Link>
                 </div>

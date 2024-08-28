@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import '../css/register.css';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBCheckbox, MDBTextArea } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput } from 'mdb-react-ui-kit';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 
 export default function Login() {
@@ -36,22 +37,24 @@ export default function Login() {
                 const res = await axios.post(process.env.REACT_APP_BASE_URL + 'login', { emailOrPhone, password });
                 if (res.data.success) {
                     toast.success(res.data.message);
+                    localStorage.setItem('userID', JSON.stringify(res.data.userID));
                     setTimeout(() => {
-                        navigate(`/renteasee?userid=${res.data.userID}`)
+                        navigate(`/renteasee`)
                     }, 1800)
                 }
                 else {
                     toast.error(res.data.message);
-                    console.log("asdfas");
-
                 }
             } catch (error) {
-
+                console.error(error);
             }
         }
     }
 
     return <>
+        <Helmet>
+            <title>RentEasee | Login</title>
+        </Helmet>
         <MDBContainer fluid className='p-5 background-radial-gradient overflow-hidden' style={{ height: '100vh' }}>
             <img src={'https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2FRentEaseeLogo.png?alt=media&token=2d3aa269-d5ac-464d-add4-6d85860db2f8'} alt="logo" className='img-logo' />
             <MDBRow className='mt-5 d-flex flex-column align-items-center text-center'>

@@ -1,3 +1,12 @@
+/* FOOTER COMPONENT */
+.text-reset:hover{
+    color: blueviolet !important;
+    text-decoration: underline;
+}
+
+
+
+
 .select-new {
     border: none;
     outline: none;
@@ -25,6 +34,7 @@
     color: white !important;
     transition: .3s;
 }
+
 
 
 

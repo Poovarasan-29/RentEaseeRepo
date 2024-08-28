@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-// import { SkeletonTheme } from 'react-loading-skeleton';
 
 import Register from './templates/Register';
 import Login from './templates/Login';
@@ -18,6 +17,9 @@ import CarDetails from './templates/CarDetails';
 import ApplyDriver from './templates/ApplyDriver';
 import NewCar from './templates/NewCar';
 import Footer from './components/Footer';
+import { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import PersonalProfile from './templates/PersonalProfile';
 
 function App() {
 
@@ -25,32 +27,34 @@ function App() {
         AOS.init();
     }, []);
     return <>
-        {/* <SkeletonTheme baseColor='#313131' highlightColor='#525252'> */}
-        <BrowserRouter>
-            <ToastContainer autoClose={1300} />
-            <Routes>
-                <Route path='/renteasee' element={<Navbar />} />
-                <Route path='/renteasee/rent-cars' element={<Navbar />} />
-                <Route path='/renteasee/new-rent-car' element={<Navbar />} />
-                <Route path='/renteasee/new-driver' element={<Navbar />} />
-                <Route path='/renteasee/hire-drivers' element={<Navbar />} />
-                <Route path='/renteasee/rent-cars/details/:id' element={<Navbar />} />
-            </Routes>
-            <Routes>
-                <Route path='/' element={<Register />} />
-                <Route path='/renteasee/login' element={<Login />} />
-                <Route path='/renteasee' element={<Home />} />
-                <Route path='/renteasee/rent-cars' element={<DisplayCars />} />
-                <Route path='/renteasee/hire-drivers' element={<Drivers />} />
-                <Route path='/renteasee/rent-cars/details/:id' element={<CarDetails />} />
-                <Route path='/renteasee/new-rent-car' element={<NewCar />} />
-                <Route path='/renteasee/new-driver' element={<ApplyDriver />} />
-            </Routes>
-            <Routes>
-                <Route path='/renteasee' element={<Footer />} />
-            </Routes>
-        </BrowserRouter>
-        {/* </SkeletonTheme> */}
+        <SkeletonTheme baseColor='#D3D3D3' highlightColor='#E8E8E8'>
+            <BrowserRouter>
+                <ToastContainer autoClose={1300} />
+                <Routes>
+                    <Route path='/renteasee' element={<Navbar />} />
+                    <Route path='/renteasee/rent-cars' element={<Navbar />} />
+                    <Route path='/renteasee/new-rent-car' element={<Navbar />} />
+                    <Route path='/renteasee/new-driver' element={<Navbar />} />
+                    <Route path='/renteasee/hire-drivers' element={<Navbar />} />
+                    <Route path='/renteasee/rent-cars/details/:id' element={<Navbar />} />
+                </Routes>
+                <Routes>
+                    <Route path='/' element={<Register />} />
+                    <Route path='/renteasee/login' element={<Login />} />
+                    <Route path='/renteasee' element={<Home />} />
+                    <Route path='/renteasee/rent-cars' element={<DisplayCars />} />
+                    <Route path='/renteasee/rent-cars/details/:id' element={<CarDetails />} />
+                    <Route path='/renteasee/hire-drivers' element={<Drivers />} />
+                    <Route path='/renteasee/new-rent-car' element={<NewCar />} />
+                    <Route path='/renteasee/new-driver' element={<ApplyDriver />} />
+                    <Route path='/renteasee/profile' element={<PersonalProfile />} />
+
+                </Routes>
+                <Routes>
+                    <Route path='/renteasee' element={<Footer />} />
+                </Routes>
+            </BrowserRouter>
+        </SkeletonTheme>
     </>
 }
 

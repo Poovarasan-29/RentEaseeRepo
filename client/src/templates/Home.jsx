@@ -2,9 +2,13 @@ import React from 'react';
 import HomeSearch from '../components/HomeSearch';
 import '../css/home.css';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function Home() {
     return <>
+        <Helmet>
+            <title>RentEasee</title>
+        </Helmet>
         <section style={{ width: '100%', marginTop: '70px', maxHeight: '745px', overflow: 'hidden' }}>
             <video style={{ width: '100%', objectFit: 'cover' }} src="https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2FRentEase.mp4?alt=media&token=71eba22f-789d-4fd4-a222-b1470c792381" muted autoPlay loop></video>
         </section>

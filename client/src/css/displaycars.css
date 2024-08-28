@@ -1,4 +1,33 @@
-p span{
+p span {
     font-family: none;
     font-weight: 500;
+}
+
+
+
+.anim_btn {
+    background: linear-gradient(to right, #ad1fff 50%, white 50%);
+    margin: 0px 0px 3px 3px;
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .5s ease-out;
+    font-weight: bold !important;
+}
+
+.anim_btn:hover {
+    background-position: left bottom;
+    color: white;
+}
+
+.text {
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+    color: black;
+    transition: all .6s ease-out;
+    display: block;
+}
+
+.text:hover {
+    color: white;
 }
