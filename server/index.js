@@ -16,7 +16,7 @@ async function connectDB() {
     try {
         await mongoose.connect("mongodb+srv://spking222005:SayHi_29@rent-easee.vaswv.mongodb.net/?retryWrites=true&w=majority&appName=Rent-Easee")
     } catch (error) {
-        console.log("Not connected");
+        console.log("Not connected The Database" + error);
     }
 }
 connectDB();
@@ -47,6 +47,8 @@ app.get('/user-profile', getUserProfileInformations);
 
 
 
-app.listen(port, () => {
-    console.log("Running at Port : ", port);
-});
+// app.listen(port, () => {
+//     console.log("Running at Port : ", port);
+// });
+
+module.exports = app;
