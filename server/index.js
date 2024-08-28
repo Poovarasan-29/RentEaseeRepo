@@ -9,7 +9,7 @@ const driverRouter = require('./routes/driver');
 const authenticationRouter = require('./routes/authentication');
 
 dotenv.config({ path: path.join(__dirname, 'config', '.env') })
-const port = 5000
+const port = process.env.PORT || 5000;
 connectDatabase();
 
 app.use(cors());
@@ -22,4 +22,4 @@ app.use(authenticationRouter);
 
 app.listen(port, () => {
     console.log("Running at Port : ", port);
-})
+});

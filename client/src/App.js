@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CarDetails from './templates/CarDetails';
 import ApplyDriver from './templates/ApplyDriver';
 import NewCar from './templates/NewCar';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -36,7 +37,6 @@ function App() {
                 <Route path='/renteasee/rent-cars/details/:id' element={<Navbar />} />
             </Routes>
             <Routes>
-                <Route path='/temp' element={<CarDetails />} />
                 <Route path='/' element={<Register />} />
                 <Route path='/renteasee/login' element={<Login />} />
                 <Route path='/renteasee' element={<Home />} />
@@ -44,9 +44,10 @@ function App() {
                 <Route path='/renteasee/hire-drivers' element={<Drivers />} />
                 <Route path='/renteasee/rent-cars/details/:id' element={<CarDetails />} />
                 <Route path='/renteasee/new-rent-car' element={<NewCar />} />
-                {/* <Route path='/renteasee/new-rent-car' element={<NewCarPost />} /> */}
                 <Route path='/renteasee/new-driver' element={<ApplyDriver />} />
-
+            </Routes>
+            <Routes>
+                <Route path='/renteasee' element={<Footer />} />
             </Routes>
         </BrowserRouter>
         {/* </SkeletonTheme> */}

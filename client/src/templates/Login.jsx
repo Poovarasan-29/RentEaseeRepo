@@ -53,10 +53,9 @@ export default function Login() {
 
     return <>
         <MDBContainer fluid className='p-5 background-radial-gradient overflow-hidden' style={{ height: '100vh' }}>
-            <img src={require('../AppImages/RentEaseeLogo.png')} alt="logo" className='img-logo' />
+            <img src={'https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2FRentEaseeLogo.png?alt=media&token=2d3aa269-d5ac-464d-add4-6d85860db2f8'} alt="logo" className='img-logo' />
             <MDBRow className='mt-5 d-flex flex-column align-items-center text-center'>
                 <MDBCol md='5' lg='6' className='text-center text-md-start d-flex flex-column  align-items-center justify-content-center'>
-
                     <h1 className="my-3 display-4 heading fw-bold ls-tight px-3" style={{ color: 'hsl(218, 81%, 95%)' }}>
                         " Welcome back " <br />
                         <span style={{ color: 'hsl(218, 81%, 75%)', paddingLeft: '15px' }}>to RentEasee</span>

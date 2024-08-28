@@ -105,7 +105,7 @@ function Register() {
 
     return (
         <MDBContainer fluid className='p-4 background-radial-gradient d-flex align-items-center overflow-hidden' style={{ height: '100vh' }}>
-            <img src={require('../AppImages/RentEaseeLogo.png')} alt="logo" className='img-logo' />
+            <img src={'https://firebasestorage.googleapis.com/v0/b/renteasee-29.appspot.com/o/AppImages%2FRentEaseeLogo.png?alt=media&token=2d3aa269-d5ac-464d-add4-6d85860db2f8'} alt="logo" className='img-logo' />
             <MDBRow className='mt-5'>
                 <MDBCol md='5' lg='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
 

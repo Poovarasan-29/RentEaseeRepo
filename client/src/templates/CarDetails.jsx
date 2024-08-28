@@ -10,21 +10,21 @@ export default function CarDetails() {
    const [carDetails, setCarDetails] = useState([]);
    const [relatedCars, setRelatedCars] = useState([]);
 
-   async function fetchCarDetails() {
-      const response = await axios.get(process.env.REACT_APP_BASE_URL + "car-details/" + id);
-      setCarDetails(response.data);
+   // async function fetchCarDetails() {
+   //    const response = await axios.get(process.env.REACT_APP_BASE_URL + "car-details/" + id);
+   //    setCarDetails(response.data);
 
-      const relatedCarsRes = await axios.get(process.env.REACT_APP_BASE_URL + "related-cars", { params: { model: response.data.model, brand: response.data.brand, fuelType: response.data.fuelType } });
-      setRelatedCars(relatedCarsRes.data.filter(car => car._id !== id));
-   }
+   //    const relatedCarsRes = await axios.get(process.env.REACT_APP_BASE_URL + "related-cars", { params: { model: response.data.model, brand: response.data.brand, fuelType: response.data.fuelType } });
+   //    setRelatedCars(relatedCarsRes.data.filter(car => car._id !== id));
+   // }
 
    useEffect(() => {
-      fetchCarDetails();
+      // fetchCarDetails();
    }, [id])
 
    return (
 
-      carDetails.carPhotos && <>
+     <>
 
          <div className="container-lg" style={{ marginTop: '120px' }}>
             {/* <p className="text-center p-2 fs-3 fw-bold">Car Details</p> */}

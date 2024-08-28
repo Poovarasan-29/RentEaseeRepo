@@ -29,7 +29,7 @@ export default function HomeSearch() {
     }
 
     return <>
-        <div className="bg-dark text-white d-flex flex-column align-items-center py-4 justify-content-center" style={{ marginTop: '100px' }}>
+        <div className="bg-dark text-white d-flex flex-column align-items-center py-4 justify-content-center">
             <div style={{ width: '80%' }}>
                 <h2 className="search-title">EXPLORE THE FINEST SELECTION OF RENTAL VEHICLES</h2>
 

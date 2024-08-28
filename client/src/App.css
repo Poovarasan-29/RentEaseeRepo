@@ -1,19 +1,16 @@
-.changeScrollBar::-webkit-scrollbar {
+/* .changeScrollBar::-webkit-scrollbar {
   width: 3px;
 }
 
-/* Track */
 .changeScrollBar::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-/* Handle */
 .changeScrollBar::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 50px;
 }
 
-/* Handle on hover */
 .changeScrollBar::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */
