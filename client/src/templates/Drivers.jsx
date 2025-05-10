@@ -1,132 +1,157 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DriverFilter from "../components/DriverFilter";
 import { Helmet } from "react-helmet-async";
 import DriverCardSkeleton from "../skeleton/DriverCardSkeleton";
-import { MDBCol, MDBRow, MDBCard, MDBCardTitle, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
-
+import { MDBCol, MDBRow, MDBCard, MDBCardTitle, MDBCardBody, MDBCardImage } from 'mdb-react-ui-kit';
 
 export default function Drivers() {
-
-    const [drivers, setDrivers] = useState([]);
-    const [selectedDistrict, setSelectedDistrict] = useState("");
-    const [selectedCity, setSelectedCity] = useState("");
-    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const [selectedState, setSelectedState] = useState(queryParams.get("state") || "");
+    const [selectedDistrict, setSelectedDistrict] = useState(queryParams.get("district") || "");
+    const [selectedCity, setSelectedCity] = useState(queryParams.get("city") || "");
+    const [drivers, setDrivers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [appliedStateFilter, setAppliedStateFilter] = useState("");
+    const [appliedDistrictFilter, setAppliedDistrictFilter] = useState("");
 
     async function fetchDrivers() {
+        setLoading(true);
 
-        let response;
+        const query = {
+            state: selectedState !== "State" ? selectedState : "",
+            district: selectedDistrict !== "District" ? selectedDistrict : "",
+            city: selectedCity !== "City" ? selectedCity : ""
+        };
 
-        if (selectedDistrict === "District" && selectedCity === "City") {
-            response = await axios.get(process.env.REACT_APP_BASE_URL + 'get-drivers', { params: { district: '', city: '' } });
-            navigate(`/renteasee/hire-drivers?district=&city=`)
-        }
-        else if (selectedDistrict !== "District" && selectedCity === "City") {
-            response = await axios.get(process.env.REACT_APP_BASE_URL + 'get-drivers', { params: { district: selectedDistrict, city: '' } });
-            navigate(`/renteasee/hire-drivers?district=${selectedDistrict}&city=`)
-        }
-        else if (selectedDistrict === "District" && selectedCity !== "City") {
-            response = await axios.get(process.env.REACT_APP_BASE_URL + 'get-drivers', { params: { district: '', city: selectedCity } });
-            navigate(`/renteasee/hire-drivers?district=&city=${selectedCity}`)
-        }
-        else {
-            response = await axios.get(process.env.REACT_APP_BASE_URL + 'get-drivers', { params: { district: selectedDistrict, city: selectedCity } });
-            navigate(`/renteasee/hire-drivers?district=${selectedDistrict}&city=${selectedCity}`)
-        }
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}get-drivers`, {
+                params: query
+            });
+            if (query.city.length !== 0)
+                navigate(`/renteasee/hire-drivers?state=${query.state}&district=${query.district}&city=${query.city}`);
+            else if (query.district.length !== 0)
+                navigate(`/renteasee/hire-drivers?state=${query.state}&district=${query.district}`);
+            else
+                navigate(`/renteasee/hire-drivers?state=${query.state}`);
 
-        const drivers = response.data.allDrivers;
-        for (let driver of drivers) {
-            const dob = new Date(driver.dob);
-            const month_diff = Date.now() - dob.getTime();
-            const age_dt = new Date(month_diff);
-            const year = age_dt.getUTCFullYear();
-            const age = Math.abs(year - 1970);
-            driver.age = age;
+            const fetchedDrivers = response.data.allDrivers.map(driver => {
+                const dob = new Date(driver.dob);
+                const age = new Date(Date.now() - dob.getTime()).getUTCFullYear() - 1970;
+                return { ...driver, age };
+            });
+
+            setDrivers(fetchedDrivers);
+            setAppliedStateFilter(query.state);
+            setAppliedDistrictFilter(query.district);
+
+        } catch (err) {
+            toast.error("Failed to fetch drivers.");
+            setDrivers([]);
+            setAppliedStateFilter("");
+            setAppliedDistrictFilter("");
+        } finally {
+            setLoading(false);
         }
-        setDrivers(drivers);
-        setLoading(false);
     }
 
     useEffect(() => {
-        setLoading(true)
-        fetchDrivers();
+        fetchDrivers(); // Initial fetch on component mount
     }, []);
 
-    function handleContactBtn() {
-        toast.warning("Need to Buy Membership");
-    }
-
+    const getLocationText = (driver) => {
+        if (appliedStateFilter && appliedStateFilter !== "" && !appliedDistrictFilter) {
+            return `${driver.city}, ${driver.district}`;
+        } else if (appliedStateFilter && appliedStateFilter !== "" && appliedDistrictFilter && appliedDistrictFilter !== "") {
+            return `${driver.city}`;
+        } else {
+            return `${driver.city}, ${driver.district}, ${driver.state}`;
+        }
+    };
 
     return (
         <>
             <Helmet>
                 <title>RentEasee | Drivers</title>
             </Helmet>
-            <DriverFilter selectedCity={selectedCity} setSelectedCity={setSelectedCity} selectedDistrict={selectedDistrict} setSelectedDistrict={setSelectedDistrict} fetchDrivers={fetchDrivers} />
-            {
-                loading ?
-                    Array(6).fill(0).map(_ => <div className="col p-2"><DriverCardSkeleton /></div>)
-                    :
-                    drivers.length !== 0 ?
-                        <div className="vh-100" style={{ backgroundColor: '#efefef', overflowX: 'hidden' }}>
-                            <div className="" style={{ width: '100vw' }} >
-                                <MDBRow className="justify-content-center px-3 pe-5">
-                                    {drivers.map((driver, index) =>
-                                        <MDBCol md="9" lg="7" xl="5" className="mt-5" style={{ width: 'fit-content' }} >
-                                            <MDBCard style={{ borderRadius: '5px', border: '1px solid rgba(0,0,0,.3)' }}>
-                                                <MDBCardBody className="p-4">
-                                                    <div className="d-flex text-black">
-                                                        <div className="flex-shrink-0">
-                                                            <MDBCardImage
-                                                                style={{ width: '180px', borderRadius: '10px' }}
-                                                                src={driver.driverPhoto}
-                                                                alt={driver.name}
-                                                                fluid />
-                                                        </div>
-                                                        <div className="ms-3">
-                                                            <MDBCardTitle className="fw-bold text-uppercase" style={{ color: '#ad1fff' }}>{driver.name}</MDBCardTitle>
-                                                            <MDBRow className="d-flex" style={{ width: 'fit-content' }}>
-                                                                <MDBRow>
-                                                                    <MDBCol className="p-0 ms-3">
-                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>DISTRICT</p>
-                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.district}</p>
-                                                                    </MDBCol>
-                                                                    <MDBCol className="p-0 ms-4">
-                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>CITY</p>
-                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.city}</p>
-                                                                    </MDBCol>
-                                                                </MDBRow>
-                                                                <MDBRow style={{ marginTop: '10px' }}>
-                                                                    <MDBCol className="p-0 ms-3">
-                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>AGE</p>
-                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.age}</p>
-                                                                    </MDBCol>
-                                                                    <MDBCol className="p-0 ms-4">
-                                                                        <p className="m-0 fw-bold" style={{ color: 'rgba(0,0,0,.8)' }}>GENDER</p>
-                                                                        <p className="m-0" style={{ fontSize: '14px', color: 'rgba(0,0,0,.7)' }}>{driver.gender}</p>
-                                                                    </MDBCol>
-                                                                </MDBRow>
 
-                                                            </MDBRow>
-                                                            <div className="d-flex pt-1">
-                                                                <MDBBtn outline className="me-1 " style={{ width: 'fit-content' }}>Profile</MDBBtn>
-                                                                <MDBBtn className="" style={{ width: 'fit-content' }} onClick={handleContactBtn} >Contact</MDBBtn>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </MDBCardBody>
-                                            </MDBCard>
-                                        </MDBCol>
-                                    )}
-                                </MDBRow>
-                            </div>
+            <div className="container mt-4">
+                <DriverFilter
+                    selectedState={selectedState}
+                    setSelectedState={setSelectedState}
+                    selectedDistrict={selectedDistrict}
+                    setSelectedDistrict={setSelectedDistrict}
+                    selectedCity={selectedCity}
+                    setSelectedCity={setSelectedCity}
+                    fetchDrivers={fetchDrivers}
+                />
+
+                <div className="mt-4" style={{ padding: '10px', borderRadius: '5px' }}> {/* Added slight gray background */}
+                    {loading ? (
+                        <MDBRow className="row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            {Array(6).fill(0).map((_, i) => (
+                                <MDBCol key={i}>
+                                    <DriverCardSkeleton />
+                                </MDBCol>
+                            ))}
+                        </MDBRow>
+                    ) : drivers.length ? (
+                        <MDBRow className="row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            {drivers.map((driver, index) => (
+                                <MDBCol key={index}>
+                                    <MDBCard
+                                        className="h-100 shadow-sm cursor-pointer driver-card"
+                                        style={{ borderRadius: '10px', border: '1px solid #e0e0e0' }}
+                                        onClick={() => navigate(`/renteasee/driver-profile/${driver._id}`)}
+                                    >
+                                        <div className="d-flex align-items-center" style={{ padding: '15px' }}>
+                                            <div style={{ flexShrink: 0, marginRight: '15px', width: '120px', height: '120px', overflow: 'hidden', borderRadius: '10px' }}>
+                                                <MDBCardImage
+                                                    src={driver.driverPhoto}
+                                                    alt={driver.name}
+                                                    style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                                />
+                                            </div>
+                                            <MDBCardBody className="p-0">
+                                                <MDBCardTitle className="fw-bold text-uppercase mb-1" style={{ color: '#ad1fff', fontSize: '1.1rem' }}>{driver.name}</MDBCardTitle>
+                                                <p className="mb-0" style={{ fontSize: '0.9rem' }}><strong className="me-1">Age:</strong> {driver.age}</p>
+                                                <p className="mb-0" style={{ fontSize: '0.9rem' }}><strong className="me-1">Gender:</strong> {driver.gender}</p>
+                                                <p className="mb-2" style={{ fontSize: '0.9rem' }}><strong className="me-1">Location:</strong> {getLocationText(driver)}</p>
+                                            </MDBCardBody>
+                                        </div>
+                                    </MDBCard>
+                                </MDBCol>
+                            ))}
+                        </MDBRow>
+                    ) : (
+                        <div className="d-flex justify-content-center align-items-center vh-50">
+                            <div className="text-muted" style={{ fontSize: '1.5rem' }}>No drivers matched your search.</div>
                         </div>
-                        :
-                        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: '25px' }}>No Drivers matched your search</div>
-            }
+                    )}
+                </div>
+            </div>
+
+            <style type="text/css">
+                {`
+                    .driver-card {
+                        transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+                        background-color: white; /* Default background */
+                        transition:.3s;
+                        }
+                        
+                        .driver-card:hover {
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                            background-color: #f0f0f0; /* Slightly gray on hover */
+                            transition:.3s;
+                            border-color:rgba(0,0,0,0.3) !important;
+                    }
+                `}
+            </style>
         </>
-    )
+    );
 }

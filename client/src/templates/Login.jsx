@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 
-
+ 
 export default function Login() {
     const [password, setPassword] = useState("");
     const [emailOrPhone, setEmailOrPhone] = useState("");
@@ -40,7 +40,7 @@ export default function Login() {
                     localStorage.setItem('userID', JSON.stringify(res.data.userID));
                     setTimeout(() => {
                         navigate(`/renteasee`)
-                    }, 1800)
+                    }, 1000)
                 }
                 else {
                     toast.error(res.data.message);

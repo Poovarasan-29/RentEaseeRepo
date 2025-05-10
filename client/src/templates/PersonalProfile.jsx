@@ -17,7 +17,6 @@ export default function PersonalProfile() {
         if (response.data.length !== 0) {
             setUserDetails(response.data[0])
         }
-        console.log("Res : ", response.data);
 
     }
 

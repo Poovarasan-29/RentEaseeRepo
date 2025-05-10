@@ -92,7 +92,7 @@ export default function Footer() {
             </section>
 
             <div className='text-center p-4 bg-dark text-light' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-                © 2024 Copyright renteasee.com
+                © 2025 Copyright renteasee.com
             </div>
         </MDBFooter>
     );

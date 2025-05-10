@@ -12,11 +12,13 @@ p span {
     background-position: right bottom;
     transition: all .5s ease-out;
     font-weight: bold !important;
+    outline: 2px solid gray;    
 }
 
 .anim_btn:hover {
     background-position: left bottom;
     color: white;
+    outline-color: #ad1fff;
 }
 
 .text {
