@@ -65,15 +65,15 @@ exports.loginUser = async (req, res) => {
 
   try {
     const { emailOrPhone, password } = req.body;
-
     let user;
     // const userSignUpPassword = user.password;
-    if (isNaN(emailOrPhone))
+    if (!Number(emailOrPhone)) {
       user = await NewUserRegistrationModel.findOne({ email: emailOrPhone });
-    else
+    } else {
       user = await NewUserRegistrationModel.findOne({
         phoneNumber: emailOrPhone,
       });
+    }
 
     if (!user) {
       return res.json({ success: false, message: "Invalid credentials" });
